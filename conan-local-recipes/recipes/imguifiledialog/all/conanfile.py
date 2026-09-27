@@ -60,6 +60,11 @@ class ImguiFileDialogConan(ConanFile):
         tc = CMakeToolchain(self)
         if self.options.use_std_filesystem:
             tc.preprocessor_definitions["USE_STD_FILESYSTEM"] = None
+        if self.settings.os == "Windows":
+            # The global BUILD_SHARED_LIBS=ON makes this a DLL with zero
+            # exported symbols — MSVC emits no import .lib, so the packaged
+            # cpp_info.libs entry cannot be satisfied. Keep it static.
+            tc.variables["BUILD_SHARED_LIBS"] = False
         tc.generate()
         cd = CMakeDeps(self)
         cd.generate()
