@@ -30,6 +30,9 @@ LLVM_OPENMP_VERSION = "20.1.6"
 MINIZIP_VERSION = "4.2.1"
 NINJA_VERSION = "1.13.2"
 NLOHMANN_JSON_VERSION = "3.12.0"
+# NVRTC 13.x emits PTX ISA 9.x that drivers < 591.xx (CUDA 13.0) reject via
+# cuModuleLoadDataEx, and its embedded ptxas OOMs on the PathOCL megakernel.
+# Keep 12.8.93 until the driver baseline is CUDA 13.1+.
 NVRTC_VERSION = "12.8.93"
 OCIO_VERSION = "2.5.2"
 OIIO_VERSION = "3.1.16.0"

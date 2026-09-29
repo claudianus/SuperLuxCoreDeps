@@ -33,6 +33,11 @@ class ImguiFileDialogConan(ConanFile):
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
+            # A Windows DLL exports zero symbols, so MSVC emits no import
+            # .lib and CMakeDeps cannot resolve cpp_info.libs. Force static
+            # here (options are frozen before configure(), so it cannot be
+            # overridden there).
+            self.options.shared = False
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)

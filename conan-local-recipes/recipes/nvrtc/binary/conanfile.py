@@ -67,8 +67,10 @@ class nvrtcRecipe(ConanFile):
                 copy(self, "*.a" , build_lib, pack_lib)
         else:
             # Windows libraries
+            # CUDA <=12.x archives ship DLLs in bin/; CUDA 13.x nests them in bin/x64/
+            win_bin = build_bin / "x64" if (build_bin / "x64").is_dir() else build_bin
             if self.options.shared:
-                copy(self, "*.dll", build_bin, pack_bin)
+                copy(self, "*.dll", win_bin, pack_bin)
                 copy(self, "nvrtc.lib", build_lib / "x64", pack_lib / "x64")
             else:
                 copy(self, "*_static.lib", build_lib / "x64", pack_lib / "x64")
